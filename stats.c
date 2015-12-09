@@ -29,6 +29,7 @@
 #include <sys/types.h>
 #include <stdarg.h>
 #include <limits.h>
+#include <time.h>
 
 #include "filebench.h"
 #include "flowop.h"
@@ -459,6 +460,7 @@ stats_snap(void)
 	hrtime_t orig_starttime;
 	flowop_t *flowop;
 	char *str;
+	time_t timestamp = time(NULL);
 
 	if (globalstats == NULL) {
 		filebench_log(LOG_ERROR,
@@ -610,6 +612,7 @@ stats_snap(void)
 	/* removing last \n  */
 	str[strlen(str) - 1] = '\0';
 
+	filebench_log(LOG_INFO, "timestamp: %ld",timestamp);
 	filebench_log(LOG_INFO, "%s", str);
 	free(str);
 
@@ -646,6 +649,7 @@ stats_dump(char *filename)
 	struct flowstats *iostat = &globalstats[FLOW_TYPE_IO];
 	struct flowstats *aiostat = &globalstats[FLOW_TYPE_AIO];
 	flowop_t *flowop;
+	time_t timestamp = time(NULL);
 
 	/* don't dump stats if run ended in error */
 	if (filebench_shm->shm_f_abort == FILEBENCH_ABORT_ERROR)
@@ -653,6 +657,7 @@ stats_dump(char *filename)
 
 	(void) strcpy(filebench_shm->shm_dump_filename, filename);
 
+	filebench_log(LOG_INFO, "timestamp: %ld",timestamp);
 	filebench_log(LOG_INFO, "in statsdump %s", filename);
 
 	if (filebench_shm->shm_dump_fd > 0) {
@@ -660,6 +665,7 @@ stats_dump(char *filename)
 		filebench_shm->shm_dump_fd = -1;
 	}
 
+	filebench_log(LOG_DUMP, "timestamp: %ld",timestamp);
 	filebench_log(LOG_DUMP, "Flowop totals:");
 
 	flowop = filebench_shm->shm_flowoplist;
@@ -836,6 +842,7 @@ stats_multidump(char *filename)
 	struct flowstats *iostat = &globalstats[FLOW_TYPE_IO];
 	struct flowstats *aiostat = &globalstats[FLOW_TYPE_AIO];
 	flowop_t *flowop;
+	time_t timestamp = time(NULL);
 
 	/* don't dump stats if run ended in error */
 	if (filebench_shm->shm_f_abort == FILEBENCH_ABORT_ERROR)
@@ -843,6 +850,7 @@ stats_multidump(char *filename)
 
 	(void) strcpy(filebench_shm->shm_dump_filename, filename);
 
+	filebench_log(LOG_INFO, "timestamp: %ld",timestamp);
 	filebench_log(LOG_INFO, "in statsmultidump %s", filename);
 
 	if (filebench_shm->shm_dump_fd > 0) {
@@ -850,6 +858,7 @@ stats_multidump(char *filename)
 		filebench_shm->shm_dump_fd = -1;
 	}
 
+	filebench_log(LOG_DUMP, "timestamp: %ld",timestamp);
 	filebench_log(LOG_DUMP, "Flowop totals:");
 
 	flowop = filebench_shm->shm_flowoplist;

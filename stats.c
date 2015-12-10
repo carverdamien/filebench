@@ -662,7 +662,7 @@ stats_dump(char *filename)
 	filebench_log(LOG_INFO, "in statsdump %s", filename);
 
 	if (filebench_shm->shm_dump_fd < 0) {
-		filebench_log(LOG_DUMP, "timestamp; flowop; ops; ops/s; mb/s; ms/op; us/op-cpu; r; w; uscpu/op;");
+		filebench_log(LOG_DUMP, "timestamp, flowop, ops, ops/s, mb/s, ms/op, us/op-cpu, r, w, uscpu/op");
 	}
 
 	flowop = filebench_shm->shm_flowoplist;
@@ -674,7 +674,7 @@ stats_dump(char *filename)
 		}
 
 		filebench_log(LOG_DUMP,
-			      "%ld; %s; %d; %lf; %lf; %lf; %lf; %lf; %lf; %lf",
+			      "%ld, %s, %d, %lf, %lf, %lf, %lf, %lf, %lf, %lf",
 			      timestamp,
 			      flowop->fo_name,
 			      flowop->fo_stats.fs_count,
@@ -690,7 +690,7 @@ stats_dump(char *filename)
 		flowop = flowop->fo_next;
 	}
 	filebench_log(LOG_DUMP,
-		      "%ld; %s; %d; %lf; %lf; %lf; %lf; %lf; %lf; %lf;",
+		      "%ld, %s, %d, %lf, %lf, %lf, %lf, %lf, %lf, %lf",
 		      timestamp,
 		      "IO Summary",
 		      iostat->fs_count + aiostat->fs_count,

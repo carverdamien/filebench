@@ -30,7 +30,6 @@
 #include <stdarg.h>
 #include <limits.h>
 #include <time.h>
-#include <math.h>
 
 #include "filebench.h"
 #include "flowop.h"
@@ -674,30 +673,25 @@ stats_dump(char *filename)
 		}
 
 		filebench_log(LOG_DUMP,
-			      "%ld, %s, %d, %lf, %lf, %lf, %lf, %lf, %lf, %lf",
+			      "%ld, %s, %d, %lf, %lf, %lf, %lf, , , ",
 			      timestamp,
 			      flowop->fo_name,
 			      flowop->fo_stats.fs_count,
 			      flowop->fo_stats.fs_count / ((globalstats->fs_etime - globalstats->fs_stime) / FSECS),
 			      (flowop->fo_stats.fs_bytes / (1024 * 1024)) / ((globalstats->fs_etime - globalstats->fs_stime) / FSECS),
 			      flowop->fo_stats.fs_count ? flowop->fo_stats.fs_mstate[FLOW_MSTATE_LAT] / (flowop->fo_stats.fs_count * 1000000.0) : 0,
-			      flowop->fo_stats.fs_count ? flowop->fo_stats.fs_mstate[FLOW_MSTATE_CPU] / (flowop->fo_stats.fs_count * 1000.0) : 0,
-			      NAN,
-			      NAN,
-			      NAN
+			      flowop->fo_stats.fs_count ? flowop->fo_stats.fs_mstate[FLOW_MSTATE_CPU] / (flowop->fo_stats.fs_count * 1000.0) : 0
 			      );
 
 		flowop = flowop->fo_next;
 	}
 	filebench_log(LOG_DUMP,
-		      "%ld, %s, %d, %lf, %lf, %lf, %lf, %lf, %lf, %lf",
+		      "%ld, %s, %d, %lf, %lf, , , %lf, %lf, %lf",
 		      timestamp,
 		      "IO Summary",
 		      iostat->fs_count + aiostat->fs_count,
 		      (iostat->fs_count + aiostat->fs_count) / ((globalstats->fs_etime - globalstats->fs_stime) / FSECS),
 		      ((iostat->fs_bytes + aiostat->fs_bytes) / (1024 * 1024)) / ((globalstats->fs_etime - globalstats->fs_stime) / FSECS),
-		      NAN,
-		      NAN,
 		      (iostat->fs_rcount + aiostat->fs_rcount) / ((globalstats->fs_etime - globalstats->fs_stime) / FSECS),		      
 		      (iostat->fs_wcount + aiostat->fs_wcount) / ((globalstats->fs_etime - globalstats->fs_stime) / FSECS),
 

@@ -6791,6 +6791,7 @@ parser_posset_define(cmd_t *cmd)
 static void
 parser_proc_create(cmd_t *cmd)
 {
+    time_t timestamp;
 	filebench_shm->shm_1st_err = 0;
 	filebench_shm->shm_f_abort = FILEBENCH_OK;
 
@@ -6815,6 +6816,10 @@ parser_proc_create(cmd_t *cmd)
 		filebench_log(LOG_ERROR, "Could not allocate shared memory");
 		return;
 	}
+
+    timestamp = time(NULL);
+    filebench_log(LOG_INFO, "%ld,createprocs,,,,,,,,",timestamp);
+    filebench_log(LOG_DUMP, "%ld,createprocs,,,,,,,,",timestamp);
 
 	filebench_shm->shm_starttime = gethrtime();
 	eventgen_reset();
@@ -6861,6 +6866,9 @@ parser_fileset_shutdown(cmd_t *cmd)
 static void
 parser_proc_shutdown(cmd_t *cmd)
 {
+    time_t timestamp = time(NULL);
+    filebench_log(LOG_INFO, "%ld,shutdownprocs,,,,,,,,",timestamp);
+    filebench_log(LOG_DUMP, "%ld,shutdownprocs,,,,,,,,",timestamp);
 	filebench_log(LOG_INFO, "Shutting down processes");
 	filecreate_done = 0;
 	procflow_shutdown();

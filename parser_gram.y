@@ -3409,6 +3409,7 @@ parser_proc_create(cmd_t *cmd)
 	filebench_shm->shm_starttime = gethrtime();
 	eventgen_reset();
 	timestamp = time(NULL);
+	filebench_log(LOG_INFO, "%ld,createprocs,,,,,,,,",timestamp);
 	filebench_log(LOG_DUMP, "%ld,createprocs,,,,,,,,",timestamp);
 }
 
@@ -3455,6 +3456,7 @@ parser_proc_shutdown(cmd_t *cmd)
 {
 	filebench_log(LOG_INFO, "Shutting down processes");
 	time_t timestamp = time(NULL);
+	filebench_log(LOG_INFO, "%ld,shutdownprocs,,,,,,,,",timestamp);
 	filebench_log(LOG_DUMP, "%ld,shutdownprocs,,,,,,,,",timestamp);
 	filecreate_done = 0;
 	procflow_shutdown();

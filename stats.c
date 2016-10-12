@@ -682,10 +682,33 @@ stats_dump(char *filename)
 			      flowop->fo_stats.fs_count ? flowop->fo_stats.fs_mstate[FLOW_MSTATE_LAT] / (flowop->fo_stats.fs_count * 1000000.0) : 0,
 			      flowop->fo_stats.fs_count ? flowop->fo_stats.fs_mstate[FLOW_MSTATE_CPU] / (flowop->fo_stats.fs_count * 1000.0) : 0
 			      );
+		filebench_log(LOG_INFO,
+			      "%ld,%s,%d,%lf,%lf,%lf,%lf,,,",
+			      timestamp,
+			      flowop->fo_name,
+			      flowop->fo_stats.fs_count,
+			      flowop->fo_stats.fs_count / ((globalstats->fs_etime - globalstats->fs_stime) / FSECS),
+			      (flowop->fo_stats.fs_bytes / (1024 * 1024)) / ((globalstats->fs_etime - globalstats->fs_stime) / FSECS),
+			      flowop->fo_stats.fs_count ? flowop->fo_stats.fs_mstate[FLOW_MSTATE_LAT] / (flowop->fo_stats.fs_count * 1000000.0) : 0,
+			      flowop->fo_stats.fs_count ? flowop->fo_stats.fs_mstate[FLOW_MSTATE_CPU] / (flowop->fo_stats.fs_count * 1000.0) : 0
+			      );
 
 		flowop = flowop->fo_next;
 	}
 	filebench_log(LOG_DUMP,
+		      "%ld,%s,%d,%lf,%lf,,,%lf,%lf,%lf",
+		      timestamp,
+		      "IO Summary",
+		      iostat->fs_count + aiostat->fs_count,
+		      (iostat->fs_count + aiostat->fs_count) / ((globalstats->fs_etime - globalstats->fs_stime) / FSECS),
+		      ((iostat->fs_bytes + aiostat->fs_bytes) / (1024 * 1024)) / ((globalstats->fs_etime - globalstats->fs_stime) / FSECS),
+		      (iostat->fs_rcount + aiostat->fs_rcount) / ((globalstats->fs_etime - globalstats->fs_stime) / FSECS),		      
+		      (iostat->fs_wcount + aiostat->fs_wcount) / ((globalstats->fs_etime - globalstats->fs_stime) / FSECS),
+
+		      (iostat->fs_rcount + iostat->fs_wcount + aiostat->fs_rcount + aiostat->fs_wcount) ?
+		      (iostat->fs_syscpu / 1000.0) / (iostat->fs_rcount + iostat->fs_wcount + aiostat->fs_rcount + aiostat->fs_wcount) : 0
+		      );
+	filebench_log(LOG_INFO,
 		      "%ld,%s,%d,%lf,%lf,,,%lf,%lf,%lf",
 		      timestamp,
 		      "IO Summary",
